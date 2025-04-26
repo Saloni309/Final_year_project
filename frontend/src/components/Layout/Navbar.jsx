@@ -53,8 +53,9 @@ const Navbar = () => {
             <Link to={"/applications/me"} onClick={() => setShow(false)}>
               {user && user?.role === "TNP"
                 ? "STUDENT'S APPLICATIONS"
-                : user?.role === "Student" ? "MY APPLICATIONS":
-                "Pending TNPs"}
+                : user?.role === "Student"
+                ? "MY APPLICATIONS"
+                : "Pending TNPs"}
             </Link>
           </li>
           {user && user.role === "TNP" ? (
@@ -75,12 +76,16 @@ const Navbar = () => {
           )}
 
           {/* <button onClick={handleLogout}>LOGOUT</button> */}
-          
+
           <li>
-            <Link to={"/profile"} onClick={() => setShow(false)}>
-              PROFILE
-            </Link>
-          </li>
+  <Link
+    to={user?.role === "TNP" || user?.role === "Student" ? "/profile" : "/tpo/profile"}
+    onClick={() => setShow(false)}
+  >
+    PROFILE
+  </Link>
+</li>
+
         </ul>
         <div className="hamburger">
           <GiHamburgerMenu onClick={() => setShow(!show)} />

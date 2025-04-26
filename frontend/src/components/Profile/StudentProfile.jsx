@@ -4,6 +4,10 @@ import { Context } from "../../main";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+
+
+// this profile is for student and tnp only
+
 const StudentProfile = () => {
   const [profileUser, setProfileUser] = useState(null);
   const [loading, setLoading] = useState(true);

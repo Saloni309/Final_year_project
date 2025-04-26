@@ -51,9 +51,10 @@ const Register = () => {
           withCredentials: true,
         }
       );
+      console.log(data);
       toast.success(data.message);
       setVerify(true);
-      setTimer(60);
+      // setTimer(60);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -73,18 +74,27 @@ const Register = () => {
           withCredentials: true,
         }
       );
+      console.log(data);
       toast.success(data.message);
+  
+      // Reset all fields properly
       setEmail("");
-      setName("");
+      setFirstname("");
+      setLastname("");
       setPhone("");
       setPassword("");
       setConfirmPassword("");
-      setenrollment("");
+      setVerificationCode("");
+      setVerify(false);
+  
+      // After successful verification
       setIsAuthorized(true);
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
+  
   const handleResendCode = async (e) => {
     e.preventDefault();
     try {

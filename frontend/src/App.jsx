@@ -13,6 +13,7 @@ const ForgotPassword = lazy(() => import("./components/Forgot/ForgotPassword.jsx
 const StudentProfile = lazy(() =>
   import("./components/Profile/StudentProfile.jsx")
 );
+const TPOProfile = lazy(() => import("./components/Profile/TPOProfile.jsx"));
 
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));
@@ -91,6 +92,7 @@ const App = () => {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/profile" element={<StudentProfile />} />
+            <Route path="/tpo/profile" element={<TPOProfile />} />
           </Routes>
           <Toaster />
         </Suspense>
