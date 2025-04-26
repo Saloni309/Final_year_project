@@ -52,7 +52,7 @@ const TPOProfile = () => {
     { label: "Name", value: profileUser.firstname + " " + profileUser.lastname },
     { label: "Email", value: profileUser.email },
     { label: "Phone", value: profileUser.phone },
-    { label: "Role", value: "TPO" },
+    { label: "Role", value: "TPO" }, // As TPO role is fixed
     
   ];
 
