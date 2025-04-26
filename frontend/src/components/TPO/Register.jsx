@@ -114,7 +114,8 @@ const Register = () => {
       toast.error(error.response.data.message);
     }
   };
-
+ 
+  // checking authorization
   if (isAuthorized) {
     return <Navigate to={"/"} />;
   }
