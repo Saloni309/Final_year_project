@@ -28,7 +28,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     role,
     enrollment,
     address,
-    branch: role === "Student" ? branch : undefined,
+    branch,
     verificationCode,
   });
   

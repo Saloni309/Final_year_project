@@ -61,6 +61,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your Branch!"],
   },
+  placementStatus: {
+    type: String,
+    enum: ["none", "normal", "standard", "dream"],
+    default: "none",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -82,7 +87,7 @@ userSchema.methods.getJWTToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRE,
   });
-};
+};  
 
 
 

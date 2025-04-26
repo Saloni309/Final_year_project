@@ -223,7 +223,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {role === "Student" && (
+              {/* {role === "Student" && ( */}
                 <>
                   <div className="inputTag">
                     <label>Enrollment Number</label>
@@ -257,7 +257,7 @@ const Register = () => {
                     </div>
                   </div>
                 </>
-              )}
+              {/* )} */}
 
               <div className="inputTag">
                 <label>Address</label>
