@@ -74,7 +74,7 @@ const StudentProfile = () => {
   ];
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center py-1 px-4">
+      <div className="min-h-[85vh] bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center py-1 px-4">
         <div className="bg-white shadow-2xl rounded-lg w-full max-w-4xl p-5 flex flex-col items-center transition-all duration-300 hover:shadow-3xl">
     
           {/* Profile and Heading */}
