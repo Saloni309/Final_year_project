@@ -35,6 +35,10 @@ const jobSchema = new mongoose.Schema({
     enum: ["None", "Normal", "Standard", "Dream"],
     required: [true, "Please provide Tier."],
   },
+  allowedBranches: {
+    type: [String], // Array of strings
+    required: [true, "Please specify allowed branches for the job."],
+  },
   
   fixedSalary: {
     type: Number,

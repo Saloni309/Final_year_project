@@ -19,6 +19,7 @@ const PostJob = () => {
   const [salaryType, setSalaryType] = useState("default");
   // const [tier, setTier] = useState("");
   const [tier, setTier] = useState("default");
+  const [allowedBranches, setAllowedBranches] = useState([]);
 
   const [open, setOpen] = useState(false);
 
@@ -29,7 +30,7 @@ const PostJob = () => {
   const handleJobPost = async (e) => {
     e.preventDefault();
     setOpen(true);
-  
+
     const jobData = {
       title,
       description,
@@ -38,15 +39,16 @@ const PostJob = () => {
       city,
       company,
       tier,
+      allowedBranches,
     };
-  
+
     if (salaryType === "Fixed Salary") {
       jobData.fixedSalary = fixedSalary;
     } else if (salaryType === "Ranged Salary") {
       jobData.salaryFrom = salaryFrom;
       jobData.salaryTo = salaryTo;
     }
-  
+
     await axios
       .post("http://localhost:4000/api/v1/job/post", jobData, {
         withCredentials: true,
@@ -75,7 +77,6 @@ const PostJob = () => {
         setOpen(false);
       });
   };
-  
 
   if (!isAuthorized || (user && user.role !== "TNP")) {
     navigateTo("/");
@@ -191,6 +192,32 @@ const PostJob = () => {
                 <option value="Standard">Standard</option>
                 <option value="Dream">Dream</option>
               </select>
+
+              <label className="block mt-4 mb-2 font-semibold text-lg">
+                Allowed Branches
+              </label>
+              <select
+                multiple
+                value={allowedBranches}
+                onChange={(e) => {
+                  const options = Array.from(
+                    e.target.selectedOptions,
+                    (option) => option.value
+                  );
+                  setAllowedBranches(options);
+                }}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+              >
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="ME">ME</option>
+                <option value="CE">CE</option>
+                <option value="EEE">EEE</option>
+                <option value="IT">IT</option>
+              </select>
+              <p className="text-sm text-gray-500 mt-1">
+                Hold Ctrl (or Cmd on Mac) to select multiple branches
+              </p>
 
               <textarea
                 rows="10"

@@ -88,24 +88,42 @@ const JobDetails = () => {
             </span>
           </p>
           {user && user.role === "Student" ? (
-            (() => {
-              const tierOrder = { None: 0, Normal: 1, Standard: 2, Dream: 3 };
-              const userTier = tierOrder[user.placementStatus || "None"];
-              const jobTier = tierOrder[job.tier || "None"];
+  job && Object.keys(job).length !== 0 ? (  // Check if job is fetched
+    (() => {
+      const tierOrder = { None: 0, Normal: 1, Standard: 2, Dream: 3 };
+      const userTier = tierOrder[user.placementStatus || "None"];
+      const jobTier = tierOrder[job.tier || "None"];
 
-              if (userTier >= jobTier) {
-                return (
-                  <p className="text-red-500">
-                    You are already placed in this or a better tier.
-                  </p>
-                );
-              } else {
-                return <Link to={`/application/${job._id}`}>Apply Now</Link>;
-              }
-            })()
-          ) : (
-            <></>
-          )}
+      const isBranchAllowed =
+        Array.isArray(job.allowedBranches) &&
+        job.allowedBranches.map(b => b.toLowerCase().trim()).includes(user.branch.toLowerCase().trim());
+
+      if (!isBranchAllowed) {
+        return (
+          <p className="text-red-500">
+            Your branch is not eligible for this job.
+          </p>
+        );
+      }
+
+      if (userTier >= jobTier) {
+        return (
+          <p className="text-red-500">
+            You are already placed in this or a better tier.
+          </p>
+        );
+      } else {
+        return <Link to={`/application/${job._id}`} className="text-blue-500 underline">Apply Now</Link>;
+      }
+    })()
+  ) : (
+    <p>Loading...</p>   // while job is being fetched
+  )
+) : (
+  <></>
+)}
+
+
         </div>
       </div>
     </section>
