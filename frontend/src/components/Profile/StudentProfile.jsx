@@ -74,51 +74,71 @@ const StudentProfile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-20 px-12 lg:px-24 flex flex-col items-center justify-center">
-      <div className="bg-white shadow-2xl rounded-3xl w-full max-w-4xl p-8 md:p-12 transition-all duration-300 hover:shadow-3xl hover:scale-105 transform ease-in-out">
-        <div className="flex flex-col items-center space-y-6 mb-12">
-          <div className="w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-5xl font-semibold shadow-xl border-4 border-white">
-            {profileUser?.name ? profileUser.name[0] : "?"}
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center py-1 px-4">
+        <div className="bg-white shadow-2xl rounded-lg w-full max-w-4xl p-5 flex flex-col items-center transition-all duration-300 hover:shadow-3xl">
+    
+          {/* Profile and Heading */}
+          <div className="flex flex-col items-center space-y-3 mb-4">
+            <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-5xl font-bold shadow-md border-4 border-white">
+              {profileUser?.name ? profileUser.name[0] : "?"}
+            </div>
+            <h1 className="text-3xl font-extrabold text-[#1C3C5B]">My Profile</h1>
+            <p className="text-gray-600 text-sm text-center">Welcome to your dashboard.</p>
           </div>
-
-          <h1 className="text-4xl font-extrabold text-indigo-700">
-            My Profile
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Welcome to your personalized dashboard.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {userInfo.map((info, index) => {
-            if (
-              info.label === "Placement Status" &&
-              profileUser.role.toLowerCase() === "tnp"
-            ) {
-              return null; // skip rendering Placement Status if role is TNP
-            }
-            return (
-              <div
-                key={index}
-                className="flex justify-between items-center bg-gray-50 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform ease-in-out"
+    
+          {/* Profile Info */}
+          <div className="w-full max-w-md flex flex-col gap-1 mb-2">
+            {userInfo.map((info, index) => {
+              if (info.label === "Placement Status" && profileUser.role.toLowerCase() === "tnp") {
+                return null;
+              }
+              return (
+                <div
+                  key={index}
+                  className="flex items-center bg-gray-50 border border-gray-300 border-opacity-20 rounded-md shadow-md hover:shadow-lg transition-all px-8 py-6 mx-2"
+                >
+                  <div className="w-40 text-base font-medium text-gray-600 text-left pl-4">
+                    {info.label}:
+                  </div>
+                  <div className="flex-1 text-base font-semibold text-gray-800 truncate">
+                    {info.value || "N/A"}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+    
+          {/* Check Resume Score Button */}
+          {profileUser.role !== "TNP" && (
+            <div className="w-full flex justify-center mt-1"> 
+              <button
+                onClick={checkResumeScore}
+                className="flex items-center gap-2 px-8 py-3 rounded-md bg-[#00b5ad] text-white text-lg font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all"
               >
-                <span className="text-sm text-gray-700 font-medium">
-                  {info.label}:
-                </span>
-                <span className="text-base font-semibold text-gray-800 truncate">
-                  {info.value || "N/A"}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Resume Score Button */}
-        {profileUser.role !== "TNP" && (
-          <div className="mt-6 w-full flex justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l3 3m0 0l-3 3m3-3H6m6 4v1a2 2 0 002 2h3a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v1"
+                  />
+                </svg>
+                Check Resume Score
+              </button>
+            </div>
+          )}
+    
+          {/* Logout Button */}
+          <div className="mt-1 w-full flex justify-center"> 
             <button
-              onClick={checkResumeScore}
-              className="flex items-center gap-3 px-8 py-3 rounded-full bg-gradient-to-r from-green-500 to-teal-500 text-white text-lg font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 transform ease-in-out"
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-8 py-3 rounded-md bg-[#1C3C5B] text-white text-lg font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,40 +151,17 @@ const StudentProfile = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M13 7l3 3m0 0l-3 3m3-3H6m6 4v1a2 2 0 002 2h3a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v1"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 002 2h3a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v1"
                 />
               </svg>
-              Check Resume Score
+              Logout
             </button>
           </div>
-        )}
+    
+        </div>
       </div>
-
-      {/* Logout Button */}
-      <div className="mt-12 w-full max-w-4xl flex justify-center">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 px-8 py-3 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white text-lg font-semibold shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 transform ease-in-out"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 002 2h3a2 2 0 002-2V7a2 2 0 00-2-2h-3a2 2 0 00-2 2v1"
-            />
-          </svg>
-          Logout
-        </button>
-      </div>
-    </div>
-  );
+    );
+    
 };
 
 export default StudentProfile;
