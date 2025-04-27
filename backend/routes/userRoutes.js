@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register, logout, getUser, getMyProfile, verifyUser, generateVerificationCode, forgotPassword, generateNewPassword, updatePassword } from "../controllers/userController.js";
+import { login, register, logout, getUser, getMyProfile, verifyUser, generateVerificationCode, forgotPassword, generateNewPassword, updatePassword, getStudentsByBranch, updatePlacementStatus } from "../controllers/userController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -14,5 +14,7 @@ router.post("/forgot-password", forgotPassword);
 router.post("/generate-new-password", generateNewPassword);
 router.post("/update-password", isAuthenticated, updatePassword);
 router.get("/myprofile", isAuthenticated, getMyProfile);
+router.get("/getstudents", isAuthenticated, getStudentsByBranch);
+router.put("/updatestatus/:studentId", updatePlacementStatus);
 
 export default router;

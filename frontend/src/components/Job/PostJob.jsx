@@ -186,10 +186,10 @@ const PostJob = () => {
                 <option value="default" disabled>
                   Select Tier
                 </option>
-                <option value="none">None</option>
-                <option value="normal">Normal</option>
-                <option value="standard">Standard</option>
-                <option value="dream">Dream</option>
+                <option value="None">None</option>
+                <option value="Normal">Normal</option>
+                <option value="Standard">Standard</option>
+                <option value="Dream">Dream</option>
               </select>
 
               <textarea

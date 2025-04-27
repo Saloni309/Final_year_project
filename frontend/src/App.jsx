@@ -14,6 +14,9 @@ const StudentProfile = lazy(() =>
   import("./components/Profile/StudentProfile.jsx")
 );
 const TPOProfile = lazy(() => import("./components/Profile/TPOProfile.jsx"));
+const StudentList = lazy(() =>
+  import("./components/StudentData/StudentList.jsx")
+);
 
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));
@@ -93,6 +96,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
             <Route path="/profile" element={<StudentProfile />} />
             <Route path="/tpo/profile" element={<TPOProfile />} />
+            <Route path="/tnp/students" element={<StudentList />} />
           </Routes>
           <Toaster />
         </Suspense>

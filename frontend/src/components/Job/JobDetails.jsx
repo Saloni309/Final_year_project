@@ -38,7 +38,6 @@ const JobDetails = () => {
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    
   });
 
   return (
@@ -48,6 +47,9 @@ const JobDetails = () => {
         <div className="banner">
           <p>
             Company: <span>{job.company}</span>
+          </p>
+          <p>
+            Tier: <span>{job.tier}</span>
           </p>
           <p>
             Title: <span> {job.title}</span>
@@ -86,7 +88,21 @@ const JobDetails = () => {
             </span>
           </p>
           {user && user.role === "Student" ? (
-            <Link to={`/application/${job._id}`}>Apply Now</Link>
+            (() => {
+              const tierOrder = { None: 0, Normal: 1, Standard: 2, Dream: 3 };
+              const userTier = tierOrder[user.placementStatus || "None"];
+              const jobTier = tierOrder[job.tier || "None"];
+
+              if (userTier >= jobTier) {
+                return (
+                  <p className="text-red-500">
+                    You are already placed in this or a better tier.
+                  </p>
+                );
+              } else {
+                return <Link to={`/application/${job._id}`}>Apply Now</Link>;
+              }
+            })()
           ) : (
             <></>
           )}

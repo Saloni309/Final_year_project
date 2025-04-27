@@ -63,8 +63,8 @@ const userSchema = new mongoose.Schema({
   },
   placementStatus: {
     type: String,
-    enum: ["none", "normal", "standard", "dream"],
-    default: "none",
+    enum: ["None", "Normal", "Standard", "Dream"],
+    default: "None",
   },
   createdAt: {
     type: Date,

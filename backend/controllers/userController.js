@@ -230,3 +230,60 @@ export const getMyProfile = catchAsyncErrors((req, res, next) => {
     user,
   });
 });
+
+
+
+
+// Function to get students by branch for TNP
+
+export const getStudentsByBranch = async (req, res) => {
+  try {
+    const tnpId = req.user._id; // assuming req.user is the logged-in TNP
+
+    const tnp = await User.findById(tnpId);
+
+    if (!tnp || tnp.role !== "TNP") {
+      return res.status(400).json({ message: "Invalid TNP user" });
+    }
+
+    const students = await User.find({
+      role: "Student",
+      branch: tnp.branch, // matching branch
+    });
+
+    res.status(200).json({
+      success: true,
+      students,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
+export const updatePlacementStatus = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const { placementStatus } = req.body;
+
+    if (!placementStatus) {
+      return res.status(400).json({ message: "Placement status is required." });
+    }
+
+    const student = await User.findById(studentId);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found." });
+    }
+
+    student.placementStatus = placementStatus;
+    await student.save();
+
+    res.status(200).json({ message: "Placement status updated successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};

@@ -32,7 +32,7 @@ const jobSchema = new mongoose.Schema({
   },
   tier: {
     type: String,
-    enum: ["none", "normal", "standard", "dream"],
+    enum: ["None", "Normal", "Standard", "Dream"],
     required: [true, "Please provide Tier."],
   },
   
