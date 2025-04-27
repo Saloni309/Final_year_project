@@ -20,6 +20,7 @@ export const  NewJobPostedNotificationTemplate = (doc, studentName) =>{
                   <li><strong>Title:</strong> ${doc.title}</li>
                   <li><strong>Description:</strong> ${doc.description}</li>
                   <li><strong>Category:</strong> ${doc.category}</li>
+                  <li><strong>Tier:</strong> ${doc.tier}</li>
                   <li><strong>Company:</strong> ${doc.company}</li>
                   <li><strong>Location:</strong> ${doc.city}, ${doc.country}</li>
 <li> <strong>Salary:</strong> ${doc.fixedSalary ? `Fixed: ${doc.fixedSalary}` : `${doc.salaryFrom ? doc.salaryFrom : "N/A"} - ${doc.salaryTo ? doc.salaryTo : "N/A"}`}</li>

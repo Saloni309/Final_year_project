@@ -30,6 +30,12 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide company name."],
   },
+  tier: {
+    type: String,
+    enum: ["none", "normal", "standard", "dream"],
+    required: [true, "Please provide Tier."],
+  },
+  
   fixedSalary: {
     type: Number,
     minLength: [4, "Salary must contain at least 4 digits"],

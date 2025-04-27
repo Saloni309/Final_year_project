@@ -17,6 +17,8 @@ const PostJob = () => {
   const [salaryTo, setSalaryTo] = useState("");
   const [fixedSalary, setFixedSalary] = useState("");
   const [salaryType, setSalaryType] = useState("default");
+  // const [tier, setTier] = useState("");
+  const [tier, setTier] = useState("default");
 
   const [open, setOpen] = useState(false);
 
@@ -27,46 +29,31 @@ const PostJob = () => {
   const handleJobPost = async (e) => {
     e.preventDefault();
     setOpen(true);
+  
+    const jobData = {
+      title,
+      description,
+      category,
+      country,
+      city,
+      company,
+      tier,
+    };
+  
     if (salaryType === "Fixed Salary") {
-      setSalaryFrom("");
-      setSalaryFrom("");
+      jobData.fixedSalary = fixedSalary;
     } else if (salaryType === "Ranged Salary") {
-      setFixedSalary("");
-    } else {
-      setSalaryFrom("");
-      setSalaryTo("");
-      setFixedSalary("");
+      jobData.salaryFrom = salaryFrom;
+      jobData.salaryTo = salaryTo;
     }
+  
     await axios
-      .post(
-        "http://localhost:4000/api/v1/job/post",
-        fixedSalary.length >= 4
-          ? {
-              title,
-              description,
-              category,
-              country,
-              city,
-              company,
-              fixedSalary,
-            }
-          : {
-              title,
-              description,
-              category,
-              country,
-              city,
-              company,
-              salaryFrom,
-              salaryTo,
-            },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post("http://localhost:4000/api/v1/job/post", jobData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         toast.success(res.data.message);
         setTitle("");
@@ -79,6 +66,7 @@ const PostJob = () => {
         setSalaryTo("");
         setFixedSalary("");
         setSalaryType("default");
+        setTier("default");
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -87,121 +75,142 @@ const PostJob = () => {
         setOpen(false);
       });
   };
+  
 
   if (!isAuthorized || (user && user.role !== "TNP")) {
     navigateTo("/");
   }
 
-  if(user.status === "Approved") { return (
-    <>
-      <div className="job_post page">
-        <div className="container">
-          <h3>POST NEW JOB</h3>
-          <form onSubmit={handleJobPost}>
-            <input
-              type="text"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="Company"
-            />
-            <div className="wrapper">
+  if (user.status === "Approved") {
+    return (
+      <>
+        <div className="job_post page">
+          <div className="container">
+            <h3>POST NEW JOB</h3>
+            <form onSubmit={handleJobPost}>
               <input
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Job Title"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Company"
               />
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Category
-                </option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Mobile App Development">
-                  Mobile App Development
-                </option>
-                <option value="Frontend Development">
-                  Frontend Development
-                </option>
-                <option value="Web Development">Web Development</option>
-                <option value="Account & Finance">Account & Finance</option>
-                <option value="System Engineer">System Engineer</option>
-                <option value="Graduate Trainee">Graduate Trainee</option>
-                <option value="Data Scientist">Data Scientist</option>
-                <option value="Machine Learning">Machine Learning</option>
-                <option value="BDA">Business Development Analyst</option>
-              </select>
-            </div>
+              <div className="wrapper">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Job Title"
+                />
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  <option value="Data Analyst">Data Analyst</option>
+                  <option value="Mobile App Development">
+                    Mobile App Development
+                  </option>
+                  <option value="Frontend Development">
+                    Frontend Development
+                  </option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Account & Finance">Account & Finance</option>
+                  <option value="System Engineer">System Engineer</option>
+                  <option value="Graduate Trainee">Graduate Trainee</option>
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="Machine Learning">Machine Learning</option>
+                  <option value="BDA">Business Development Analyst</option>
+                </select>
+              </div>
 
-            <div className="wrapper">
-              <input
-                type="text"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                placeholder="Country"
-              />
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="City"
-              />
-            </div>
-            <div className="salary_wrapper">
+              <div className="wrapper">
+                <input
+                  type="text"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  placeholder="Country"
+                />
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="City"
+                />
+              </div>
+              <div className="salary_wrapper">
+                <select
+                  value={salaryType}
+                  onChange={(e) => setSalaryType(e.target.value)}
+                >
+                  <option value="default" disabled>
+                    Select Salary Type
+                  </option>
+                  <option value="Fixed Salary">Fixed Salary</option>
+                  <option value="Ranged Salary">Ranged Salary</option>
+                </select>
+                <div>
+                  {salaryType === "default" ? (
+                    <p>Please provide Salary Type *</p>
+                  ) : salaryType === "Fixed Salary" ? (
+                    <input
+                      type="number"
+                      placeholder="Enter Fixed Salary"
+                      value={fixedSalary}
+                      onChange={(e) => setFixedSalary(e.target.value)}
+                    />
+                  ) : (
+                    <div className="ranged_salary">
+                      <input
+                        type="number"
+                        placeholder="Fixed Salary"
+                        value={salaryFrom}
+                        onChange={(e) => setSalaryFrom(e.target.value)}
+                      />
+                      <input
+                        type="number"
+                        placeholder="CTC Salary"
+                        value={salaryTo}
+                        onChange={(e) => setSalaryTo(e.target.value)}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
               <select
-                value={salaryType}
-                onChange={(e) => setSalaryType(e.target.value)}
+                value={tier}
+                onChange={(e) => setTier(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
               >
                 <option value="default" disabled>
-                  Select Salary Type
+                  Select Tier
                 </option>
-                <option value="Fixed Salary">Fixed Salary</option>
-                <option value="Ranged Salary">Ranged Salary</option>
+                <option value="none">None</option>
+                <option value="normal">Normal</option>
+                <option value="standard">Standard</option>
+                <option value="dream">Dream</option>
               </select>
-              <div>
-                {salaryType === "default" ? (
-                  <p>Please provide Salary Type *</p>
-                ) : salaryType === "Fixed Salary" ? (
-                  <input
-                    type="number"
-                    placeholder="Enter Fixed Salary"
-                    value={fixedSalary}
-                    onChange={(e) => setFixedSalary(e.target.value)}
-                  />
+
+              <textarea
+                rows="10"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Job Description"
+              />
+              <button type="submit">
+                {open ? (
+                  <LuLoader2 className="circular_loader" />
                 ) : (
-                  <div className="ranged_salary">
-                    <input
-                      type="number"
-                      placeholder="Fixed Salary"
-                      value={salaryFrom}
-                      onChange={(e) => setSalaryFrom(e.target.value)}
-                    />
-                    <input
-                      type="number"
-                      placeholder="CTC Salary"
-                      value={salaryTo}
-                      onChange={(e) => setSalaryTo(e.target.value)}
-                    />
-                  </div>
+                  "Create Job"
                 )}
-              </div>
-            </div>
-            <textarea
-              rows="10"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Job Description"
-            />
-            <button type="submit">
-              {open ? <LuLoader2 className="circular_loader" /> : "Create Job"}
-            </button>
-          </form>
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
-  )} else if (user.status === "Pending")
+      </>
+    );
+  } else if (user.status === "Pending")
     return (
       <>
         <div className="job_post page">
@@ -217,8 +226,9 @@ const PostJob = () => {
           </div>
         </div>
       </>
-    )
-    else return (
+    );
+  else
+    return (
       <>
         <div className="job_post page">
           <div className="container">
@@ -233,7 +243,7 @@ const PostJob = () => {
           </div>
         </div>
       </>
-    )
+    );
 };
 
 export default PostJob;
